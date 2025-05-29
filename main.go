@@ -51,9 +51,86 @@ func playerExists(nickname string) bool {
 
 // Відображає всіх гравців з їх статистикою
 func displayAllPlayers() {
+	//сделать функцию сортировки и добавть сюда
 	for i, _ := range players {
 		fmt.Printf("%d. %v\n", i+1, players[i])
 	}
+}
+
+// Оновлює рейтинг після матчу (true = перемога, false = поразка)
+func updateRating(nickname string, won bool, pointsChange int) {
+	if playerExists(nickname) {
+		if won == true {
+			wins[nickname] = 1
+			scores[nickname] += pointsChange
+		} else if won == false {
+			losses[nickname] = 1
+			scores[nickname] -= pointsChange
+		}
+	} else if !playerExists(nickname) {
+		fmt.Println("Такого гравця не існує!")
+	}
+	fmt.Printf("Рейтинг гравця \"%s\" оновлено! Новий рейтинг: %d\n", nickname, scores[nickname])
+}
+
+// Повертає топ-10 гравців за рейтингом
+func getTopPlayers(count int) []string {
+	//сделать функцию сортировки и добавть сюда
+	var topPl []string
+	for i := 0; i < count; i++ {
+		topPl = append(topPl, players[i])
+		fmt.Printf("%d. %s - %d\n", i+1, players[i], scores[players[i]])
+	}
+	return topPl
+}
+
+// Знаходить гравців у діапазоні рейтингу
+func findPlayersByRatingRange(minRating, maxRating int) []string {
+	var rangePl []string
+	for i, _ := range players {
+		rating := scores[players[i]]
+		if rating >= minRating && rating <= maxRating {
+			rangePl = append(rangePl, players[i])
+			fmt.Printf("%d. %s - %d\n", i+1, players[i], rating)
+		}
+	}
+	return rangePl
+}
+
+// Розраховує середній рейтинг всіх гравців
+func calculateAverageRating() float64 {
+	var avg float64
+	for i, _ := range scores {
+		avg += float64(scores[i])
+	}
+	avg = avg / float64(len(scores))
+	return avg
+}
+
+// Знаходить гравця з найвищим рейтингом
+func getBestPlayer() string {
+	var bestPl string
+	var bestScore int
+	for nick, score := range scores {
+		if score > bestScore || bestPl == "" {
+			bestPl = nick
+			bestScore = score
+		}
+	}
+	return bestPl
+}
+
+// Знаходить гравця з найнижчим рейтингом
+func getWorstPlayer() string {
+	var worstPl string
+	var worstScore int
+	for nick, score := range scores {
+		if score < worstScore || worstPl == "" {
+			worstPl = nick
+			worstScore = score
+		}
+	}
+	return worstPl
 }
 
 // Відображає меню
