@@ -156,7 +156,7 @@ func updateRating(nickname string, won bool, pointsChange int) {
 		}
 		fmt.Printf("\nРейтинг гравця \"%s\" оновлено! Новий рейтинг: %d ✅\n", nickname, scores[nickname])
 	} else if !playerExists(nickname) {
-		fmt.Printf("\nНажаль невдалося оновити рейтинг гравця \"%s\".Такого гравця не існує! ❌", nickname)
+		fmt.Printf("\nНажаль невдалося оновити рейтинг гравця \"%s\".Такого гравця не існує! ❌\n", nickname)
 	}
 }
 
