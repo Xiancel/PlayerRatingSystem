@@ -45,17 +45,24 @@ var reader *bufio.Reader = bufio.NewReader(os.Stdin)
 // функція сортировки
 func sortPlayer(arr []string, start, end int) {
 	if start < end {
+		// отримання індексу опорного єлементу
 		pivotIndex := partition(arr, start, end)
+		// сортуємо елементи ліворучь від опорного
 		sortPlayer(arr, start, pivotIndex-1)
+		// сортуємо елементи праворучь від опорного
 		sortPlayer(arr, pivotIndex+1, end)
 	}
 }
 
+// функція для розділення слайсу за опорним єлементом
 func partition(arr []string, start, end int) int {
+	// значення опорного єлементу
 	pivot := scores[arr[end]]
 	i := start - 1
 
+	// проходить від початку до кінця слайсу
 	for j := start; j < end; j++ {
+		// міняє місцями елементи якщо поточний єлемент більший за опорний
 		if scores[arr[j]] > pivot {
 			i++
 			temp := arr[i]
@@ -64,6 +71,7 @@ func partition(arr []string, start, end int) int {
 		}
 	}
 
+	// ставимо опорний елемент на позицію пілся всіх більших елементів
 	temp := arr[i+1]
 	arr[i+1] = arr[end]
 	arr[end] = temp
